@@ -1,0 +1,17 @@
+db_file: ./db.sqlite3
+content_dir: ./items
+open-webui:
+  api_endpoint: YOUR_OPENWEBUI_API_ENDPOINT
+  api_token: YOUR_OPENWEBUI_API_TOKEN
+rss:
+  - id: cbc_news_politics
+    name: CBC News Politics
+    url: https://www.cbc.ca/webfeed/rss/rss-politics
+    data_in_link: true
+    owui_knowledge_base: YOUR_OPENWEBUI_KNOWLEDGE_BASE_ID
+  - id: trumpstruth
+    name: TruthSocial - Donald Trump
+    url: https://trumpstruth.org/feed
+    data_in_link: false
+    author_override: Donald Trump
+    owui_knowledge_base: YOUR_OPENWEBUI_KNOWLEDGE_BASE_ID
