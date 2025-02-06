@@ -14,6 +14,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/jaytaylor/html2text"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/mmcdole/gofeed"
 
@@ -28,12 +29,14 @@ var (
 	acceptedContentTypes = []string{
 		"text/html",
 		"text/plain",
+		"text/markdown",
 		"application/pdf",
 	}
 
 	contentTypeExtensions = map[string]string{
 		"text/html":       ".html",
 		"text/plain":      ".txt",
+		"text/markdown":   ".md",
 		"application/pdf": ".pdf",
 	}
 )
@@ -56,6 +59,7 @@ type ConfigRSSEndpoint struct {
 	Url             string `yaml:"url"`
 	DataInLink      bool   `yaml:"data_in_link"`
 	AuthorOverride  string `yaml:"author_override"`
+	HtmlToMarkdown  bool   `yaml:"html_to_markdown"`
 	KnowledgeBaseId string `yaml:"owui_knowledge_base"`
 }
 
@@ -104,6 +108,22 @@ func main() {
 				if err != nil {
 					log.Printf("Error fetching content: %v", err)
 					continue
+				}
+
+				// Optionally convert html to markdown (might make it more legible to the embedder)
+				if contentType == "text/html" && rssEndpoint.HtmlToMarkdown {
+					markdown, err := html2text.FromString(string(*content), html2text.Options{
+						PrettyTables: true,
+						OmitLinks:    true,
+					})
+					if err != nil {
+						log.Printf("Error converting HTML to markdown: %v", err)
+						continue
+					}
+
+					newContent := []byte(markdown)
+					content = &newContent
+					contentType = "text/markdown"
 				}
 
 				// Cache data on filesystem

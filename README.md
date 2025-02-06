@@ -23,4 +23,5 @@ The `rss` items are, I hope, pretty straightforward but I'll spell out schema he
 * `url`: Direct URL for the RSS feed.
 * `data_in_link`: This is a boolean value that tells the tool whether to follow the link in the RSS. If `false` the tool will generate a markdown file containing details about the RSS entry and submit that (useful for microblogs) instead of following the link.
 * `author_override` (optional): If entered, this will override the value in the RSS author tags. Useful if the author tags are empty and need to be attributed.
+* `html_to_markdown`: Using [jaytaylor](https://github.com/jaytaylor)'s amazing [html2text](https://github.com/jaytaylor/html2text) library, this setting converts an html document to nicely formatted markdown.
 * `owui_knowledge_base`: The ID of your knowledge base in Open-WebUI. This is the UUID string as it appears in the URL, not the name.
