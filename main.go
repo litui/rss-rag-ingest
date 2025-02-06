@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/jaytaylor/html2text"
 	_ "github.com/mattn/go-sqlite3"
@@ -203,6 +204,8 @@ func main() {
 					log.Printf("Error recording item in DB: %v", err)
 					continue
 				}
+
+				time.Sleep(time.Second * 5)
 			}
 		}
 	}
